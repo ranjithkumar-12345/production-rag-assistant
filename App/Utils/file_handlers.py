@@ -19,7 +19,7 @@ def read_pdf(file_path):
         print(f"if we find in (file_path)in errors:{e}")
     return  text.strip()
 
-def read_doc(file_path):
+def read_docx(file_path):
     text = ""
     try:
         reader = docx.Document(file_path)
