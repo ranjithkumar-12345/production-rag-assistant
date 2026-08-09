@@ -5,7 +5,7 @@ import google.genai as genai
 load_dotenv()
 
 client = genai.Client(api_key = os.getenv("GEMINI_API_KEY"))
-def embedding_text(text:str):
+def get_embedding(text:str):
 
     result = client.models.embed_content(
         model = "gemini-embedding-001",
@@ -16,6 +16,6 @@ def embedding_text(text:str):
 
 if __name__ =="__main__":
 
-    embedding = embedding_text("My name is ranjith")
+    embedding = get_embedding("My name is ranjith")
     print(len(embedding))
     print(embedding[:6])
