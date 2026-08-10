@@ -8,7 +8,7 @@ load_dotenv()
 
 class RAGPipeline():
     def __init__(self):
-        self.Retriver = Retriever()
+        self.retriver = Retriever()
 
         self.client = genai.Client(api_key = os.getenv("GEMINI_API_KEY"))
         self.model = "gemini-1.5-flash"
@@ -18,8 +18,8 @@ class RAGPipeline():
 
         prompt = f"context:{context}\n\nQuestion:{question}\n\nAnswer"
         response = self.client.models.generate.content(
-            models=self.model,
-            context = prompt
+            model=self.model,
+            contents = prompt
         )
 
         return response.text
