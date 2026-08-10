@@ -4,7 +4,7 @@ import google.genai as genai
 
 load_dotenv()
 
-class llm():
+class LLM():
     def __init__(self):
 
         self.client = genai.Client(api_key = os.getenv("GEMINI_API_KEY"))
@@ -22,5 +22,5 @@ class llm():
 
 if __name__ =="__main__":
 
-    LLm = llm()
+    LLm = LLM()
     print("LLm intialized successfully")
