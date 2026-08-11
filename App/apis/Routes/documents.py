@@ -25,6 +25,4 @@ def delete_document(doc_id:str):
 
 if "__name__"=="__main__":
 
-    post_upload()
-    get_list()
-    delete_document()
+    print("documents installed successfully")
