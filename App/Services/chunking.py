@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     chunk_size = 50
     over_lap = 5
-    test =chunk_text("""   Task 1 
+    sample_text="""   Task 1 
 1. High-Fidelity Wireframes 
 Frame Setup
 Create a desktop frame: 1440 × 1024.
@@ -39,6 +39,6 @@ Navigation Tabs (Sticky)
 Directly below header, add horizontal tabs:
 Overview | Jobs | Contacts | Candidates | Activities | Notes
 Use RecruitCRM’s existing tab style: active tab = bold + underline (blue).
-""",50,5)
-
-print(test)
+"""
+chunks = chunk_text(sample_text, 500, 50)
+print(chunks)
