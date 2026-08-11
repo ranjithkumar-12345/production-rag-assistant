@@ -19,26 +19,8 @@ if __name__ == "__main__":
 
     chunk_size = 50
     over_lap = 5
-    sample_text="""   Task 1 
-1. High-Fidelity Wireframes 
-Frame Setup
-Create a desktop frame: 1440 × 1024.
-Background color: light gray (#F6F8FB) to match RecruitCRM.
-Header Section
-Left side:
-Add a square logo placeholder (56×56, rounded corners).
-Next to it, add Company Name (18px, bold).
-Below name, add Company Meta Info (13px, muted gray).
-Right side:
-Place Quick Action Buttons:
-“Log Call” (secondary style)
-“Add Job” (primary blue button)
-“Add Contact” (secondary style)
-Keep them aligned horizontally with equal spacing.
-Navigation Tabs (Sticky)
-Directly below header, add horizontal tabs:
-Overview | Jobs | Contacts | Candidates | Activities | Notes
-Use RecruitCRM’s existing tab style: active tab = bold + underline (blue).
-"""
-chunks = chunk_text(sample_text, 500, 50)
-print(chunks)
+    sample_text = "This is a sample text for testing chunking functionality."
+    chunk = chunk_text(sample_text, 500, 50)
+    print(f"Total chunks: {len(chunk)}")
+    for i, chunk in enumerate(chunk):
+        print(f"Chunk {i+1}: {chunk[:100]}...")

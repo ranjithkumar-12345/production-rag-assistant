@@ -14,7 +14,7 @@ vector_store = VectorStore()
 def post_upload(file:UploadFile= File(...)):
 
     content = file.filename
-    with tempfile.NamedTemporaryFile(default=False) as tmp:
+    with tempfile.NamedTemporaryFile(delete=False,suffix ="") as tmp:
         tmp.write(file.file.read())
         tmp.path = tmp.name
 
