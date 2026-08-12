@@ -13,25 +13,43 @@ vector_store = VectorStore()
 @router.post("/upload")
 def post_upload(file:UploadFile= File(...)):
 
-    content = file.filename
-    with tempfile.NamedTemporaryFile(delete=False,suffix ="") as tmp:
-        tmp.write(file.file.read())
-        tmp.path = tmp.name
+    file_ext = os.path.splitext(file.filename)[1]
+    with tempfile.NamedTemporaryFile(delete=False,suffix =file_ext) as tmp:
+        content = file.file.read()
+        tmp.write(content)
+        tmp_path = tmp.name
 
-        doc=ingest_document(tmp.path)
-        chunks =chunk_text(doc.content,500,50)
+    try:
+        doc=ingest_document(tmp.name)
+        chunks = chunk_text(doc.content, 500, 50)
+        if not chunks:
+            raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=("File contains no readable text or is empty")
+        )
 
         embeddings = [get_embedding(chunk) for chunk in chunks]
 
         ids= [f"{doc.id}_{i}"for i in range(len(chunks))]
         metadatas = [{"doc_id":doc.id} for i in chunks]
     
-        vector_store.add_documents(chunks,ids,metadatas,embeddings)
-        os.unlink(tmp.path)
+        vector_store.add_documents(chunks,ids,embeddings,metadatas)
+        os.unlink(tmp_path)
 
-    return {"message":"uploadFile sucessfully","filename":file.filename,"chunks":len(chunks)}
+        return {"message":"uploadFile sucessfully","filename":file.filename,"chunks":len(chunks)}
 
-
+    finally:
+        if os.path.exists(tmp_path):
+            try:
+                os.unlink(tmp_path)
+            except PermissionError:
+                # File is locked, try again after short delay
+                import time
+                time.sleep(0.1)
+                try:
+                    os.unlink(tmp_path)
+                except:
+                    pass
 #list Endpoint
 @router.get("/")
 def get_list():
@@ -43,6 +61,6 @@ def delete_document(doc_id:str):
     return {"message":f"delete:{doc_id}deleted"}
 
 
-if "__name__"=="__main__":
+if __name__=="__main__":
 
     print("documents installed successfully")

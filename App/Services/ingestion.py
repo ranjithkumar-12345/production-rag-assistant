@@ -1,5 +1,5 @@
 from pathlib import Path
-from app.models.documents import DocumentCreate
+from app.models.documents import Document
 from app.utils.file_handlers import read_pdf, read_docx, read_html, read_txt
 
 
@@ -23,13 +23,13 @@ def ingest_document(file_path: str):
         raise ValueError(f"Unsupported file type: {extension}")
     
     # 2. Document Create (అన్ని cases కి common)
-    doc = DocumentCreate(
+    doc = Document(
         filename=Path(file_path).name,
         content=content
     )
     
-    print(f"✅ Document ingested: {doc.filename}")
-    print(f"📄 Content length: {len(content)} characters")
+    print(f" Document ingested: {doc.filename}")
+    print(f" Content length: {len(content)} characters")
     return doc
 
 
@@ -39,9 +39,9 @@ if __name__ == "__main__":
     
     # Document object నుండి content తీయడం
     print("\n" + "=" * 50)
-    print("📄 FIRST 500 CHARACTERS:")
+    print(" FIRST 500 CHARACTERS:")
     print("=" * 50)
-    print(doc.content[:500])  # ← .content use చేయాలి
+    print(doc.content[:500])  
     print("=" * 50)
-    print(f"📊 Total characters: {len(doc.content)}")
-    print(f"📁 Filename: {doc.filename}")
+    print(f" Total characters: {len(doc.content)}")
+    print(f" Filename: {doc.filename}")

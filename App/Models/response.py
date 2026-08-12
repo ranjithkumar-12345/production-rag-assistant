@@ -23,7 +23,7 @@ class QueryResponse(BaseModel):
     answer:str
     conversation_id:Optional[str] = None
     processing_time:Optional[float] = 0.0
-    model:str ="gemini-1.5-flash"
+    model:str ="gemini-flash-latest"
     tokens_used:Optional[int] =0
     sources:List[Source]=Field(default_factory=list)
     created_at:datetime = Field(default_factory =datetime.now)

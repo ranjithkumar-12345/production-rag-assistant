@@ -23,10 +23,21 @@ def read_docx(file_path):
     text = ""
     try:
         reader = docx.Document(file_path)
-        for para in reader.paras:
+        for para in reader.paragraphs:
             extracted = para.extract_text()
+            
             if para.extract_text:
                 text+=para.extract_text +"\n"
+                
+        for table in docx.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    if cell.text.strip():
+                        text += cell.text.strip() + "\n"
+
+    except Exception as e:
+        # Raise a clear message that the route layer can catch
+        raise ValueError(f"Failed to read DOCX file: {str(e)}")
 
     except Exception as e:
         print(f"if we find in (file_path)in errors:{e}")

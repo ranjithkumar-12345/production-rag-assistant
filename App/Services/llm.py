@@ -9,7 +9,7 @@ class LLM():
 
         self.client = genai.Client(api_key = os.getenv("GEMINI_API_KEY"))
 
-        self.model = "gemini-1.5-flash"
+        self.model = "gemini-flash-latest"
 
     def generate(self,context:str,questio:str,)->str:
         prompt = f"context =context\n\nQuestion=question\n\nAnswer:"

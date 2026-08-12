@@ -8,16 +8,20 @@ load_dotenv()
 
 class RAGPipeline():
     def __init__(self):
-        self.retriver = Retriever()
+        self.retriever = Retriever()
+        api_key = os.getenv("GEMINI_API_KEY")
 
-        self.client = genai.Client(api_key = os.getenv("GEMINI_API_KEY"))
-        self.model = "gemini-1.5-flash"
+        self.client = genai.Client(api_key = api_key)
+        if not api_key:
+                    raise ValueError("GEMINI_API_KEY environment variable is missing! Check your .env file.")
+
+        self.model = "gemini-flash-latest"
 
 
     def query(self,question:str,context:str):
 
         prompt = f"context:{context}\n\nQuestion:{question}\n\nAnswer"
-        response = self.client.models.generate.content(
+        response = self.client.models.generate_content(
             model=self.model,
             contents = prompt
         )

@@ -36,6 +36,9 @@ class DocumentCreate(BaseModel):
 
 class Document(BaseModel):
     """Full document model with database fields"""
+    filename: str
+    content: Optional[str] = None
+    metadata: Dict[str, Any] = Field(default_factory=dict)
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     filename: str
     status: DocumentStatus = DocumentStatus.PENDING
