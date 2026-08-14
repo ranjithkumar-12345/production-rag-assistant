@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.apis.Routes import query,documents
+from app.apis.Routes import query,documents,authorization
 from app.apis.denpendencies import RAGPipeline,Retriever,llm,VectorStore
 
 app = FastAPI(
@@ -19,6 +19,7 @@ app.add_middleware(
 
 app.include_router(query.router)
 app.include_router(documents.router)
+app.include_router(authorization.router)
 
 @app.get("/")
 def root():
