@@ -3,6 +3,7 @@ from app.services.ingestion import ingest_document
 from app.services.vector_store import VectorStore
 from app.services.chunking import chunk_text
 from app.services.embeddding import get_embedding
+from app.core.auth import get_current_user
 import tempfile
 import os
 
@@ -11,9 +12,10 @@ vector_store = VectorStore()
 
 #upload Endpoint
 @router.post("/upload")
-def post_upload(file:UploadFile= File(...)):
+def post_upload(file:UploadFile= File(...),Current_user:dict = Depends(get_current_user)):
 
     file_ext = os.path.splitext(file.filename)[1]
+    
     with tempfile.NamedTemporaryFile(delete=False,suffix =file_ext) as tmp:
         content = file.file.read()
         tmp.write(content)
@@ -36,7 +38,17 @@ def post_upload(file:UploadFile= File(...)):
         vector_store.add_documents(chunks,ids,embeddings,metadatas)
         os.unlink(tmp_path)
 
-        return {"message":"uploadFile sucessfully","filename":file.filename,"chunks":len(chunks)}
+        return {"message":"uploadFile sucessfully","uploaded_by" : Current_user.get("sub") ,"filename":file.filename,"chunks":len(chunks)}
+
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            details =f"Error processing file :{str(e)}"
+        )
+
+
 
     finally:
         if os.path.exists(tmp_path):
