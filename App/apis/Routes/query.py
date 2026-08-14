@@ -23,13 +23,13 @@ def get_query(request:QueryRequest,Current_user: dict = Depends(get_current_user
             context = "\n\n".join(search_results["documents"][0])
         else:
             context = "No relevant context found."
-            answer=rag.query(question=request.query,context = context)
-            response = QueryResponse(
+        answer=rag.query(question=request.query,context = context)
+        response = QueryResponse(
                 query = request.query,
                 answer=answer,
                 model ="gemini-flash-latest" 
                 )
-            return response
+        return response
 
     except Exception as e:
         raise HTTPException(
