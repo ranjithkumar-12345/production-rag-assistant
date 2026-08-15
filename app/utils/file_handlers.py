@@ -19,29 +19,35 @@ def read_pdf(file_path):
         print(f"if we find in (file_path)in errors:{e}")
     return  text.strip()
 
-def read_docx(file_path):
-    text = ""
+import docx
+
+
+def read_docx(file_path: str) -> str:
+    text_chunks = []
     try:
         reader = docx.Document(file_path)
+
+        # 1. Extract text from paragraphs
         for para in reader.paragraphs:
-            extracted = para.extract_text()
-            
-            if para.extract_text:
-                text+=para.extract_text +"\n"
-                
-        for table in docx.tables:
+            cleaned = para.text.strip()
+            if cleaned:
+                text_chunks.append(cleaned)
+
+        # 2. Extract text from tables
+        for table in reader.tables:
             for row in table.rows:
-                for cell in row.cells:
-                    if cell.text.strip():
-                        text += cell.text.strip() + "\n"
+                row_text = [
+                    cell.text.strip()
+                    for cell in row.cells
+                    if cell.text.strip()
+                ]
+                if row_text:
+                    text_chunks.append(" | ".join(row_text))
+
+        return "\n\n".join(text_chunks)
 
     except Exception as e:
-        # Raise a clear message that the route layer can catch
         raise ValueError(f"Failed to read DOCX file: {str(e)}")
-
-    except Exception as e:
-        print(f"if we find in (file_path)in errors:{e}")
-    return text.strip()
 
 def read_txt(file_path):
     try:
