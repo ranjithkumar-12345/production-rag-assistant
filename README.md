@@ -176,4 +176,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
+## 🔗 Live Demo
+**Try it yourself:** [https://production-rag-assistant-r107.onrender.com/](https://production-rag-assistant-r107.onrender.com/)
+
+**Swagger UI:** [https://production-rag-assistant-r107.onrender.com/docs](https://production-rag-assistant-r107.onrender.com/docs)
+
 > **Built with  using FastAPI, Gemini AI, and ChromaDB**
