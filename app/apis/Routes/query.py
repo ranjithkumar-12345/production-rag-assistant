@@ -13,7 +13,7 @@ router = APIRouter(prefix="/query", tags=["Query"])
 vector_store = VectorStore()
 rag = RAGPipeline()
 
-@router.post("/")
+@router.post("/",response_model =QueryResponse)
 def get_query(request:QueryRequest,Current_user: dict = Depends(get_current_user)):
 
     try:
