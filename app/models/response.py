@@ -55,7 +55,7 @@ if __name__=="__main__":
 
     response = QueryResponse(
         query="what is my name ",
-        model = "gemini-1.5-flash",
+        model = "gemini-flash-latest",
         answer= "ranjith",
         sources  =[Model]
     )
